@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Issue Tracker</title>
+    <style>
+        /* Add your CSS styles here */
+    </style>
+</head>
+<body>
+    <h1>Issue Tracker</h1>
+    
+    <div id="issue-form">
+        <h2>Add Issue</h2>
+        <input type="text" id="issue-title" placeholder="Title">
+        <textarea id="issue-description" placeholder="Description"></textarea>
+        <button onclick="addIssue()">Add Issue</button>
+    </div>
+    
+    <div id="issue-list">
+        <h2>Issue List</h2>
+        <ul id="issues"></ul>
+    </div>
+
+    <script>
+        // Issue tracker logic in JavaScript
+        let issues = [];
+
+        function addIssue() {
+            const title = document.getElementById('issue-title').value;
+            const description = document.getElementById('issue-description').value;
+            
+            if (title && description) {
+                const issue = {
+                    title,
+                    description,
+                    status: 'Open'
+                };
+                issues.push(issue);
+                updateIssueList();
+                clearForm();
+            }
+        }
+
+        function closeIssue(index) {
+            issues[index].status = 'Closed';
+            updateIssueList();
+        }
+
+        function updateIssueList() {
+            const issuesList = document.getElementById('issues');
+            issuesList.innerHTML = '';
+
+            issues.forEach((issue, index) => {
+                const listItem = document.createElement('li');
+                listItem.innerHTML = `
+                    <strong>${issue.title}</strong>
+                    <p>${issue.description}</p>
+                    <span>Status: ${issue.status}</span>
+                    <button onclick="closeIssue(${index})">Close</button>
+                `;
+                issuesList.appendChild(listItem);
+            });
+        }
+
+        function clearForm() {
+            document.getElementById('issue-title').value = '';
+            document.getElementById('issue-description').value = '';
+        }
+
+        // Initial call to populate the issue list
+        updateIssueList();
+    </script>
+</body>
+</html>
